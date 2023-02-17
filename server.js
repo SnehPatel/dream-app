@@ -18,17 +18,24 @@ app.use(express.json()); // Let's API that we want to use JSON format
 
 // First Endpoint
 app.post("/dream", async (req, res) => {
-  const prompt = req.body.prompt; // the prompt entered by user
+  try {
+    const prompt = req.body.prompt; // the prompt entered by user
 
-  const aiResponse = await openai.createImage({
-    // pass the user's prompt to OpenAI, which returns a single image with the specified dimensions
-    prompt,
-    n: 1,
-    size: "1024x1024",
-  });
+    const aiResponse = await openai.createImage({
+      // pass the user's prompt to OpenAI, which returns a single image with the specified dimensions
+      prompt,
+      n: 1,
+      size: "1024x1024",
+    });
 
-  const image = aiResponse.data.data[0].url; // Repsonse object from request, that contains the image URL
-  res.send({ image }); // send the image URL back to the client
+    const image = aiResponse.data.data[0].url; // Repsonse object from request, that contains the image URL
+    res.send({ image }); // send the image URL back to the client
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send(error?.response.data.error.message || "Something went wrong");
+  }
 });
 
 app.listen(8080, () => console.log("Make are on http://localhost:8080/dream")); // Launch server, on a specified port
