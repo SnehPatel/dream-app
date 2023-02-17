@@ -27,7 +27,7 @@ app.post("/dream", async (req, res) => {
     size: "1024x1024",
   });
 
-  const img = aiResponse.data.data[0].url; // Repsonse object from request, that contains the image URL
+  const image = aiResponse.data.data[0].url; // Repsonse object from request, that contains the image URL
   res.send({ image }); // send the image URL back to the client
 });
 
