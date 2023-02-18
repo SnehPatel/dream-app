@@ -33,7 +33,7 @@ app.post("/dream", async (req, res) => {
   } catch (error) {
     console.error(error);
     res
-      .status(500)
+      .status(500) // 500 code = something on the server failed
       .send(error?.response.data.error.message || "Something went wrong");
   }
 });
